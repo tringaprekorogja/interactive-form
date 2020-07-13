@@ -17,14 +17,22 @@
 
     <form action="index.html" method="post" novalidate>
               
-      <fieldset>         
+      <fieldset class='basic'>         
         <legend>Basic Info</legend>
         
         <label for="name">Name:</label>
+        <span id="error-message-name"></span>
         <input type="text" id="name" name="user-name">
         
+       
+        
         <label for="mail">Email:</label>
+        <span id="error-message-mail"></span>
         <input type="email" id="mail" name="user-email">
+       
+       
+        
+        
         
         <label for="title">Job Role</label>
         <select id="title" name="user-title">
@@ -76,8 +84,9 @@
         </div>               
       </fieldset>
 
-      <fieldset class="activities">
+      <fieldset class="activities" id='activities'>
         <legend>Register for Activities</legend>
+          <span id="error-message-activities"></span>
           <label>
             <input type="checkbox" name="all" data-cost="200"> Main Conference — $200
           </label>
@@ -122,16 +131,19 @@
 
           <div class="col-6 col">
             <label for="cc-num">Card Number:</label>
+            <span id='error-message-cc-num'></span>
         	  <input id="cc-num" name="user-cc-num" type="text">
           </div>
 
           <div class="col-3 col">
             <label for="zip">Zip Code:</label>
+            <span id='error-message-zip'></span>
             <input id="zip" name="user-zip" type="text"> 
           </div>
 
           <div class="col-3 col">
             <label for="cvv">CVV:</label>
+            <span id='error-message-cvv'></span>
             <input id="cvv" name="user-cvv" type="text"> 
           </div>
 
