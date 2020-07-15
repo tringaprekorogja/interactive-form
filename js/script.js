@@ -1,5 +1,5 @@
-/* Creates glogabal variables */
 
+/* Creates glogabal variables */
 const form = document.querySelector("form");
 const nameInput = document.querySelector('#name')
 const emailInput = document.querySelector('#mail')
@@ -20,7 +20,6 @@ const activities = document.querySelectorAll('.activities input')
 
 
 /* Sets focus by defult on the first field */ 
-
 window.onload = (event) => {
     nameInput.focus();
 };
@@ -162,6 +161,8 @@ registerForActivities.addEventListener('change', (e) => {
 
 /*Payment section*/
 
+/*Creats global variables for the payment section*/
+
 const selectPayment = document.querySelector('#payment')
 const creditCardSection = document.querySelector('#credit-card');
 const payPalSection = document.querySelector('.paypal')
@@ -176,30 +177,37 @@ const bitcoinOption = payPalOption.nextElementSibling
 
 
 
-
+//Initially sets the credit card option to selected
 creditCardOption.selected = true;
 
 payPalSection.hidden = true;
 bitcoinSection.hidden = true;
 
+//Hides the 'Select Payment Method' option
 selectMethod.hidden = true;
 
-
+//Adds an event listener that listenes for changes in the select payment section
 selectPayment.addEventListener('change', (e) => {
+    //Sets the payment method to the method that was clicked
     const paymentMethod = e.target.value
+    //Checks if the payment method is 'credit card'
     if (paymentMethod === 'credit card') {
+        //set the credit card payment section to show, and the others two options to hide
         creditCardOption.selected = true
         creditCardSection.hidden = false
         payPalOption.hidden = true
         bitcoinSection.hidden = true
     }
+    //Checks if the payment method is 'paypal'
     else if (paymentMethod === 'paypal') {
+         //set the paypal payment section to show, and the others two options to hide
         payPalOption.selected = true;
         payPalSection.hidden = false;
         creditCardSection.hidden = true;
         bitcoinSection.hidden = true;
-
+      //Checks if the payment method is 'bitcoin'
     } else if (paymentMethod === 'bitcoin') {
+         //set the bitcoin payment section to show, and the others two options to hide
         bitcoinOption.selected = true;
         bitcoinSection.hidden = false;
         payPalSection.hidden = true;
@@ -210,8 +218,9 @@ selectPayment.addEventListener('change', (e) => {
 })
 
 
-//Form Validation and validation messagges
+/*Form Validation section*/
 
+/*Creates a function to add a validaton error indicator when the user input is not valid*/
 function showErrorMessage(element) {
     const errorMessageToShow = document.querySelector('#error-message-' + element.id)
     errorMessageToShow.textContent = 'Please type a valid ' + element.id
@@ -220,32 +229,44 @@ function showErrorMessage(element) {
     element.style.borderColor = 'red'
 
 }
+//Creates a function to remove the validation error indicator
 function hideErrorMessage(element) {
     const errorToRemove = document.querySelector("#error-message-" + element.id)
     errorToRemove.hidden = true;
     element.style.borderColor = 'white';
 }
 
+/*Creates a validation function for the name input field*/ 
 function nameValidator() {
+    //Creates a variable to store the user Input 
     const name = nameInput.value
+    //Checks the user input
     if (name.length > 0) {
+        //Calls the function to remove the validation error message indicator
         hideErrorMessage(nameInput);
         return true;
     } else {
+        //Calls the function to add the validation error message indicator
         showErrorMessage(nameInput)
         return false;
     }
 
 }
-
+/*Creates a validation function for the email input field*/ 
 function emailValidator() {
+    //Creates a variable to store the user Input
     const email = emailInput.value
+    //Creates a variable to store the indexOf of the `@` in the email value
     const indexOfAt = email.indexOf('@')
+    //Creates a variable to store the lastIndexOf of the `.` in the email value
     const lastIndexOfDot = email.lastIndexOf('.')
+    //Checks if the indexOfAt is greater than one AND the `.` last index is greater than the `@` index + 1, 
     if (indexOfAt > 1 && lastIndexOfDot > indexOfAt + 1) {
+         //Calls the function to remove the validation error message indicator
         hideErrorMessage(emailInput)
         return true;
     } else {
+        //Calls the function to add the validation error message indicator
         showErrorMessage(emailInput)
         return false;
 
@@ -254,62 +275,82 @@ function emailValidator() {
 
 
 }
-
+/*Creats a validation function for the activitie section*/ 
 function checkboxValidator() {
+    //Iterates through all the activities input elements
     for (let i = 0; i < activities.length; i++) {
+        //Checks if the activity input at current iteration is checked
         if (activities[i].checked) {
+             //Calls the function to remove the validation error message indicator
             hideErrorMessage(registerForActivities)
             return true;
         }
     }
+    //Calls the function to add the validation error message indicator
     showErrorMessage(registerForActivities)
     return false;
 
 }
-
+/*Creats a validation function for the credit card number*/ 
 function creditCardValidator() {
+    //Creates a variable to store the credit card input
     const creditCardNum = creditCardInput.value
+    //Creates a regular expression and tests the credit input
     const cardNo = /^\d{13}$|^\d{14}|^\d{15}$|^\d{16}$/.test(creditCardNum);
     if (cardNo) {
+        //Calls the function to remove the validation error message indicator
         hideErrorMessage(creditCardInput)
         return true;
     } else {
+        //Calls the function to add the validation error message indicator
         showErrorMessage(creditCardInput)
         return false;
     }
 }
 
+/*Creates a validation function for the zip code*/ 
 function zipValidator() {
+    //Crates a varable to store the zip code input 
     const zipNum = zipInput.value
+    //Creates a regular expression and tests the zip code input
     const isValidZip = /(^\d{5}$)/.test(zipNum)
     if (isValidZip) {
+        //Calls the function to remove the validation error message indicator
         hideErrorMessage(zipInput)
         return true;
     } else {
+        //Calls the function to add the validation error message indicator
         showErrorMessage(zipInput)
         return false;
     }
 
 }
-
+/*Creates a validation function for the cvv */ 
 function cvvValidator() {
+    //Creates a variable to store the cvv input
     const cvv = cvvInput.value
+    //Creates a regular expession and tests the cvv input
     const isValidCvv = /(^\d{3}$)/.test(cvv);
     if (isValidCvv) {
+        //Calls the function to remove the validation error message indicator
         hideErrorMessage(cvvInput)
     } else {
+        //Calls the function to add the validation error message indicator
         showErrorMessage(cvvInput)
     }
 
 }
-
+/*Creeates a singel validation function to test all */ 
 function validate() {
     isNameValid = nameValidator()
     isEmailValid = emailValidator()
     isCheckboxValid = checkboxValidator()
     const options = document.querySelectorAll('#payment option')
+    //Iterats through through all the payment options
     for (let i = 0; i < options.length; i++) {
+        //Checks the value of the selected payment option 
         if (options[i].selected.value = 'credit card') {
+            //Calls the validation functions
             isCCValid = creditCardValidator()
             isZipValid = zipValidator()
             isCvvValid = cvvValidator()
@@ -317,7 +358,7 @@ function validate() {
         }
 
     }
-
+    /*Checks all the validation functions*/ 
     if (isNameValid &&
         isEmailValid &&
         isCheckboxValid &&
@@ -333,9 +374,11 @@ function validate() {
 
 
 
-
+/*Adds an evenet listener to the form to listen for submit*/
 form.addEventListener('submit', (e) => {
+    //prevents the default behaviour of submit
     e.preventDefault();
+    //Calls the function to validate all 
     validate();
 
 })
