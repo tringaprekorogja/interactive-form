@@ -19,7 +19,7 @@ const activities = document.querySelectorAll('.activities input')
 
 
 
-/* Sets focus by defult on the first field */ 
+/* Sets focus by defult on the first field */
 window.onload = (event) => {
     nameInput.focus();
 };
@@ -30,7 +30,7 @@ window.onload = (event) => {
 //Initially hides the other input field
 otherInput.style.display = "none"
 
-/*Adds an event listener to the select role*/ 
+/*Adds an event listener to the select role*/
 selectRole.addEventListener('change', (e) => {
     // checks the value of the selected option 
     if (e.target.value == 'other') {
@@ -51,7 +51,7 @@ for (let i = 0; i < shirtColors.length; i++) {
 }
 
 
-/*Adds an event listener to the Design menu */ 
+/*Adds an event listener to the Design menu */
 shirtDesign.addEventListener('change', (e) => {
     // Initially hides the select theme option
     shirtDesign.firstElementChild.hidden = true;
@@ -83,7 +83,7 @@ shirtDesign.addEventListener('change', (e) => {
     } else if (theme == 'heart js') {
         //creates an empty array to store the shirt colors that include the theme
         let iLoveJsColors = [];
-         /*iterates through all the shirt color option */
+        /*iterates through all the shirt color option */
         for (let i = 0; i < shirtColors.length; i++) {
             //Initially shows all the shirt color options
             shirtColors[i].hidden = false;
@@ -200,14 +200,14 @@ selectPayment.addEventListener('change', (e) => {
     }
     //Checks if the payment method is 'paypal'
     else if (paymentMethod === 'paypal') {
-         //set the paypal payment section to show, and the others two options to hide
+        //set the paypal payment section to show, and the others two options to hide
         payPalOption.selected = true;
         payPalSection.hidden = false;
         creditCardSection.hidden = true;
         bitcoinSection.hidden = true;
-      //Checks if the payment method is 'bitcoin'
+        //Checks if the payment method is 'bitcoin'
     } else if (paymentMethod === 'bitcoin') {
-         //set the bitcoin payment section to show, and the others two options to hide
+        //set the bitcoin payment section to show, and the others two options to hide
         bitcoinOption.selected = true;
         bitcoinSection.hidden = false;
         payPalSection.hidden = true;
@@ -236,7 +236,7 @@ function hideErrorMessage(element) {
     element.style.borderColor = 'white';
 }
 
-/*Creates a validation function for the name input field*/ 
+/*Creates a validation function for the name input field*/
 function nameValidator() {
     //Creates a variable to store the user Input 
     const name = nameInput.value
@@ -252,7 +252,7 @@ function nameValidator() {
     }
 
 }
-/*Creates a validation function for the email input field*/ 
+/*Creates a validation function for the email input field*/
 function emailValidator() {
     //Creates a variable to store the user Input
     const email = emailInput.value
@@ -262,7 +262,7 @@ function emailValidator() {
     const lastIndexOfDot = email.lastIndexOf('.')
     //Checks if the indexOfAt is greater than one AND the `.` last index is greater than the `@` index + 1, 
     if (indexOfAt > 1 && lastIndexOfDot > indexOfAt + 1) {
-         //Calls the function to remove the validation error message indicator
+        //Calls the function to remove the validation error message indicator
         hideErrorMessage(emailInput)
         return true;
     } else {
@@ -275,13 +275,13 @@ function emailValidator() {
 
 
 }
-/*Creats a validation function for the activitie section*/ 
+/*Creats a validation function for the activitie section*/
 function checkboxValidator() {
     //Iterates through all the activities input elements
     for (let i = 0; i < activities.length; i++) {
         //Checks if the activity input at current iteration is checked
         if (activities[i].checked) {
-             //Calls the function to remove the validation error message indicator
+            //Calls the function to remove the validation error message indicator
             hideErrorMessage(registerForActivities)
             return true;
         }
@@ -291,12 +291,12 @@ function checkboxValidator() {
     return false;
 
 }
-/*Creats a validation function for the credit card number*/ 
+/*Creats a validation function for the credit card number*/
 function creditCardValidator() {
     //Creates a variable to store the credit card input
     const creditCardNum = creditCardInput.value
     //Creates a regular expression and tests the credit input
-    const cardNo = /^\d{13}$|^\d{14}|^\d{15}$|^\d{16}$/.test(creditCardNum);
+    const cardNo = /^\d{13,16}$/.test(creditCardNum);
     if (cardNo) {
         //Calls the function to remove the validation error message indicator
         hideErrorMessage(creditCardInput)
@@ -308,7 +308,7 @@ function creditCardValidator() {
     }
 }
 
-/*Creates a validation function for the zip code*/ 
+/*Creates a validation function for the zip code*/
 function zipValidator() {
     //Crates a varable to store the zip code input 
     const zipNum = zipInput.value
@@ -325,60 +325,83 @@ function zipValidator() {
     }
 
 }
-/*Creates a validation function for the cvv */ 
+/*Creates a validation function for the cvv */
 function cvvValidator() {
     //Creates a variable to store the cvv input
     const cvv = cvvInput.value
     //Creates a regular expession and tests the cvv input
     const isValidCvv = /(^\d{3}$)/.test(cvv);
     if (isValidCvv) {
+
         //Calls the function to remove the validation error message indicator
         hideErrorMessage(cvvInput)
+        return true
     } else {
+
         //Calls the function to add the validation error message indicator
         showErrorMessage(cvvInput)
+        return false
     }
 
 }
-/*Creeates a singel validation function to test all */ 
+/*Creates a function to see if credit card option is selected*/ 
+function isCreditCardSelected() {
+   if (creditCardOption.selected === true){
+       return true
+   }else{
+       return false
+   }
+}
+/*Creeates a singel validation function to test all */
 function validate() {
     isNameValid = nameValidator()
     isEmailValid = emailValidator()
     isCheckboxValid = checkboxValidator()
-    const options = document.querySelectorAll('#payment option')
-    //Iterats through through all the payment options
-    for (let i = 0; i < options.length; i++) {
-        //Checks the value of the selected payment option 
-        if (options[i].selected.value = 'credit card') {
-            //Calls the validation functions
-            isCCValid = creditCardValidator()
-            isZipValid = zipValidator()
-            isCvvValid = cvvValidator()
-
+    if (isCreditCardSelected()) {
+        isCCValid = creditCardValidator()
+        isZipValid = zipValidator()
+        isCvvValid = cvvValidator()
+    }
+    //Checks if the credit card is selected
+    if (isCreditCardSelected()) {
+        //Checks all the valdiations 
+        if (isNameValid &&
+            isEmailValid &&
+            isCheckboxValid &&
+            isCCValid &&
+            isZipValid &&
+            isCvvValid
+        ) {
+            return true;
+        } else {
+            return false;
+        }
+    } else {
+        //Checks if name, email and checkbox are valid
+        if (isNameValid &&
+            isEmailValid &&
+            isCheckboxValid
+        ) {
+            return true;
+        } else {
+            return false;
         }
 
     }
-    /*Checks all the validation functions*/ 
-    if (isNameValid &&
-        isEmailValid &&
-        isCheckboxValid &&
-        isCCValid &&
-        isZipValid &&
-        isCvvValid
-    ) {
-        return true;
-    } else {
-        return false;
-    }
+
 }
 
 
 
 /*Adds an evenet listener to the form to listen for submit*/
-form.addEventListener('submit', (e) => {
-    //prevents the default behaviour of submit
-    e.preventDefault();
-    //Calls the function to validate all 
-    validate();
+form.addEventListener('submit', (e) => {    
+
+    if (!validate()) {
+        //prevents the default behaviour of submit
+        e.preventDefault();
+        console.log('Form is not valid')
+    } else if (validate()) {
+        console.log('Form is valid')
+    }
 
 })
